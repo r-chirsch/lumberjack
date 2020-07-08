@@ -1,12 +1,14 @@
 <html>
 
 <head>
+    <title>Lumberjack</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
+    <link rel="icon" href="ax.svg"/>
 </head>
 
 <body>
-    <div id="app" class="pa3 pl5 avenir mw9 center">
+    <div id="app" class="pa3 pl5 avenir mw9 center vh-100">
         <h1 class="f1 u pb2"><a href="" class="no-underline bg-animate bg-black-90 hover-bg-red white measure-narrow ph1">{{ title }}</a></h1>
         <!-- input -->
         <div class="measure black-80 pb1 mb2">
@@ -28,6 +30,12 @@
             </label>
             <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30">{{ input.trim().split('\n').sort().join(',').trim() }}</textarea>
           </div>
+
+          <footer class="pv4 ph3 ph5-m ph6-l mid-gray v-btm">
+            <small class="f6 db tc">
+                <div class="black-50">Icons made by <a href="https://www.flaticon.com/free-icon/chopping_3057014" title="iconixar">iconixar</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+            </small>
+          </footer>
     </div>
 
     <script>
