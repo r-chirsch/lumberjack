@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
+</head>
+
+<body>
+    <div id="app" class="pa3 pl5 avenir mw9 center">
+        <h1 class="f1 u pb2"><a href="" class="no-underline bg-animate bg-black-90 hover-bg-red white measure-narrow ph1">{{ title }}</a></h1>
+        <!-- input -->
+        <div class="measure black-80 pb1 mb2">
+            <label for="input" class="f6 b db mb2">
+                Unformated items 
+                <span class="normal black-60">(items separated by new line)</span>
+                <span class="fr">
+                    <input class="input-reset bg-animate bg-black-90 hover-bg-red white" type="button" value="Clear" v-on:click="input=''">
+                </span>
+            </label>
+            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30" v-model="input"></textarea>  
+        </div>
+        
+        <!-- output -->
+        <div class="measure black-80 pb1">
+            <label for="input" class="f6 b db mb2">
+                Formated items
+                <span class="fr normal black-60">{{ input.length }}/200</span>
+            </label>
+            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30">{{ input.trim().split('\n').sort().join(',').trim() }}</textarea>
+          </div>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                title: 'Lumberjack',
+                input: ''
+            }
+        })
+    </script>
+</body>
+
+</html>
