@@ -36,7 +36,7 @@
                     class="material-icons fr bg-animate dim black-80 pointer"
                     v-on:click="clear()"
                     v-show="input.length>0"
-                    title="Delete input">
+                    title="Delete">
                     delete_outline
                 </span>
             </label>
@@ -49,7 +49,9 @@
         <div class="measure black-80 pb1">
             <label for="input" class="f6 b db mb2">
                 Formated items
-                <span class="fr normal black-60">
+                <span 
+                    class="fr normal black-60"
+                    title="Character count">
                     <span
                         v-bind:class="[output.length > maxLength ? 'b red' : '']">{{ output.length }}</span>/{{ maxLength }}
                 </span>
