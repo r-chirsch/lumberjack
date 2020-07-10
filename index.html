@@ -29,11 +29,27 @@
                 Unformated items 
                 <span class="normal black-60">(items separated by new line)</span>
                 <span class="fr">
-                    <input class="input-reset bg-animate bg-black-90 hover-bg-red white" type="button" value="Clear" v-on:click="clear()" v-show="input.length>0">
-                    <input class="input-reset bg-animate bg-black-90 hover-bg-red white" type="button" value="Reset" v-on:click="reset()">
+                    <input
+                        class="input-reset bg-animate bg-black-90 hover-bg-red white"
+                        type="button"
+                        value="Clear"
+                        v-on:click="clear()"
+                        v-show="input.length>0">
+                    <input
+                        class="input-reset bg-animate bg-black-90 hover-bg-red white"
+                        type="button"
+                        value="Reset"
+                        v-on:click="reset()">
                 </span>
             </label>
-            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30" v-model="input"></textarea>  
+            <textarea
+                id="input"
+                class="input-reset ba b--black-20 pa2 mb2 db w-100"
+                rows="5"
+                cols="30"
+                v-model="input"
+                autofocus>
+            </textarea>  
         </div>
         
         <!-- output -->
@@ -44,13 +60,31 @@
                     <span v-bind:class="[output.length > maxLength ? 'b red' : '']">{{ output.length }}</span>/{{ maxLength }}
                 </span>
             </label>
-            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30" readonly>{{ output }}</textarea>
+            <textarea
+                id="input"
+                class="input-reset ba b--black-20 pa2 mb2 db w-100"
+                rows="5"
+                cols="30"
+                readonly>{{ output }}
+            </textarea>
             
-            <input type="checkbox" id="leftPadIsActiveChkBx" v-model="leftPadIsActive">
-            <label for="leftPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad</label>
+            <input
+                type="checkbox"
+                id="leftPadIsActiveChkBx"
+                v-model="leftPadIsActive">
+            <label
+                for="leftPadIsActiveChkBx"
+                class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad
+            </label>
             
-            <input type="checkbox" id="rightPadIsActiveChkBx" v-model="rightPadIsActive">
-            <label for="rightPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad</label>
+            <input
+                type="checkbox"
+                id="rightPadIsActiveChkBx"
+                v-model="rightPadIsActive">
+            <label
+                for="rightPadIsActiveChkBx"
+                class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad
+            </label>
 
           </div>
 
