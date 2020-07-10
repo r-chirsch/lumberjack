@@ -39,9 +39,18 @@
         <div class="measure black-80 pb1">
             <label for="input" class="f6 b db mb2">
                 Formated items
-                <span class="fr normal black-60">{{ input.length }}/200</span>
+                <span class="fr normal black-60">
+                    <span v-bind:class="[output.length > maxLength ? 'b red' : '']">{{ output.length }}</span>/{{ maxLength }}
+                </span>
             </label>
-            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30">{{ input.trim().split('\n').sort().join(',').trim() }}</textarea>
+            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30" readonly>{{ output }}</textarea>
+            
+            <input type="checkbox" id="leftPadIsActiveChkBx" v-model="leftPadIsActive">
+            <label for="leftPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad</label>
+            
+            <input type="checkbox" id="rightPadIsActiveChkBx" v-model="rightPadIsActive">
+            <label for="rightPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad</label>
+
           </div>
 
           <footer>
@@ -56,7 +65,23 @@
             el: '#app',
             data: {
                 title: 'Lumberjack',
-                input: ''
+                input: '',
+                leftPadIsActive: false,
+                rightPadIsActive: false,
+                maxLength: 200
+            },
+            computed: {
+                output: function () {
+                    return this.input
+                        .trim()
+                        .split('\n')
+                        .map(e => e.trim())
+                        .map(e => (this.leftPadIsActive ? '*' : '') + e) // add left padding
+                        .map(e => e + (this.rightPadIsActive ? '*' : '')) // add right padding
+                        .sort()
+                        .join(',')
+                        .trim()
+                }
             }
         })
     </script>
