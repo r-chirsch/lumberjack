@@ -23,7 +23,7 @@
 </head>
 
 <body>
-    <div id="app" class="pa3 pl5 avenir mw9 center vh-100 flex flex-column">
+    <div id="app" class="pa3 pl5 avenir mw9 center vh-100 flex flex-column bg-near-white">
         <h1 class="f1 u pb2"><a href="#"
                 class="no-underline bg-animate bg-black-90 hover-bg-red white measure-narrow ph1">{{ title }}</a></h1>
 
@@ -32,16 +32,13 @@
             <label for="input" class="f6 b db mb2">
                 Unformated items
                 <span class="normal black-60">(items separated by new line)</span>
-                <span
-                    class="material-icons fr bg-animate dim black-80 pointer"
-                    v-on:click="clear()"
-                    v-show="input.length>0"
-                    title="Delete">
+                <span class="material-icons fr bg-animate dim black-80 pointer" v-on:click="clear()"
+                    v-show="input.length>0" title="Delete">
                     delete_outline
                 </span>
             </label>
-            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30" v-model="input"
-                autofocus>
+            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100 bg-white-20" rows="5" cols="30"
+                v-model="input" autofocus>
             </textarea>
         </div>
 
@@ -49,14 +46,14 @@
         <div class="measure black-80 pb1">
             <label for="input" class="f6 b db mb2">
                 Formated items
-                <span 
-                    class="fr normal black-60"
-                    title="Character count">
+                <span class="normal black-60">(click to copy to clipboard)</span>
+                <span class="fr normal black-60" title="Character count">
                     <span
                         v-bind:class="[output.length > maxLength ? 'b red' : '']">{{ output.length }}</span>/{{ maxLength }}
                 </span>
             </label>
-            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30" readonly>{{ output }}
+            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100 bg-white-20" rows="5" cols="30"
+                readonly @click="copy(output)">{{ output }}
             </textarea>
 
             <!-- options -->
@@ -68,20 +65,13 @@
             <label for="rightPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad
             </label>
 
-            <span
-                class="fr"
-                v-bind:class="[showSettings ? 'bg-light-gray' : '']">
-                <span
-                    class="material-icons input-reset bg-animate dim black-80 pointer"
-                    v-on:click="reset()"
-                    v-show="settingsChanged"
-                    title="Reset Settings">
+            <span class="fr" v-bind:class="[showSettings ? 'bg-light-gray' : '']">
+                <span class="material-icons input-reset bg-animate dim black-80 pointer" v-on:click="reset()"
+                    v-show="settingsChanged" title="Reset Settings">
                     settings_backup_restore
                 </span>
-                <span
-                    class="material-icons input-reset bg-animate dim black-80 pointer ml0"
-                    v-on:click="toggleSettings()"
-                    title="Settings">
+                <span class="material-icons input-reset bg-animate dim black-80 pointer ml0"
+                    v-on:click="toggleSettings()" title="Settings">
                     settings
                 </span>
             </span>
@@ -131,6 +121,9 @@
                 leftPadCharacter: '*',
                 rightPadCharacter: '*'
             },
+            created() {
+                this.canCopy = !!navigator.clipboard;
+            },
             computed: {
                 output: function () {
                     let formated = ''
@@ -141,9 +134,9 @@
                             .split(this.delimiter)
                             .map(e => e.trim())
                             .map(e => (this.leftPadIsActive ? this.leftPadCharacter : '') +
-                            e) // add left padding
+                                e) // add left padding
                             .map(e => e + (this.rightPadIsActive ? this.rightPadCharacter :
-                            '')) // add right padding
+                                '')) // add right padding
                             .sort()
                             .join(',')
                             .trim()
@@ -153,7 +146,8 @@
                 },
                 settingsChanged: function () {
                     let isChanged = false
-                    if(this.delimiter != '\n' || this.leftPadCharacter != '*' || this.rightPadCharacter != '*') {
+                    if (this.delimiter != '\n' || this.leftPadCharacter != '*' || this.rightPadCharacter !=
+                        '*') {
                         isChanged = true
                     }
                     return isChanged
@@ -175,6 +169,9 @@
                 },
                 toggleSettings: function () {
                     this.showSettings = !this.showSettings
+                },
+                async copy(s) {
+                    await navigator.clipboard.writeText(s);
                 }
             }
         })
