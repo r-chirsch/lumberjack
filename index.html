@@ -2,15 +2,18 @@
 
 <head>
     <title>Lumberjack</title>
+    <link rel="icon" href="ax.svg" />
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
-    <link rel="icon" href="ax.svg"/>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
-        html, body {
+        html,
+        body {
             height: 100%;
         }
+
         footer {
             position: absolute;
             bottom: 0;
@@ -21,78 +24,92 @@
 
 <body>
     <div id="app" class="pa3 pl5 avenir mw9 center vh-100 flex flex-column">
-        <h1 class="f1 u pb2"><a href="" class="no-underline bg-animate bg-black-90 hover-bg-red white measure-narrow ph1">{{ title }}</a></h1>
-        
+        <h1 class="f1 u pb2"><a href="#"
+                class="no-underline bg-animate bg-black-90 hover-bg-red white measure-narrow ph1">{{ title }}</a></h1>
+
         <!-- input -->
         <div class="measure black-80 pb1 mb2">
             <label for="input" class="f6 b db mb2">
-                Unformated items 
+                Unformated items
                 <span class="normal black-60">(items separated by new line)</span>
                 <span class="fr">
-                    <input
-                        class="input-reset bg-animate bg-black-90 hover-bg-red white"
-                        type="button"
-                        value="Clear"
-                        v-on:click="clear()"
-                        v-show="input.length>0">
-                    <input
-                        class="input-reset bg-animate bg-black-90 hover-bg-red white"
-                        type="button"
-                        value="Reset"
-                        v-on:click="reset()">
+                    <input class="input-reset bg-animate bg-black-90 hover-bg-red white" type="button" value="Clear"
+                        v-on:click="clear()" v-show="input.length>0">
                 </span>
             </label>
-            <textarea
-                id="input"
-                class="input-reset ba b--black-20 pa2 mb2 db w-100"
-                rows="5"
-                cols="30"
-                v-model="input"
+            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30" v-model="input"
                 autofocus>
-            </textarea>  
+            </textarea>
         </div>
-        
+
         <!-- output -->
         <div class="measure black-80 pb1">
             <label for="input" class="f6 b db mb2">
                 Formated items
                 <span class="fr normal black-60">
-                    <span v-bind:class="[output.length > maxLength ? 'b red' : '']">{{ output.length }}</span>/{{ maxLength }}
+                    <span
+                        v-bind:class="[output.length > maxLength ? 'b red' : '']">{{ output.length }}</span>/{{ maxLength }}
                 </span>
             </label>
-            <textarea
-                id="input"
-                class="input-reset ba b--black-20 pa2 mb2 db w-100"
-                rows="5"
-                cols="30"
-                readonly>{{ output }}
+            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100" rows="5" cols="30" readonly>{{ output }}
             </textarea>
-            
-            <input
-                type="checkbox"
-                id="leftPadIsActiveChkBx"
-                v-model="leftPadIsActive">
-            <label
-                for="leftPadIsActiveChkBx"
-                class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad
-            </label>
-            
-            <input
-                type="checkbox"
-                id="rightPadIsActiveChkBx"
-                v-model="rightPadIsActive">
-            <label
-                for="rightPadIsActiveChkBx"
-                class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad
+
+            <!-- options -->
+            <input type="checkbox" id="leftPadIsActiveChkBx" v-model="leftPadIsActive">
+            <label for="leftPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad
             </label>
 
-          </div>
+            <input type="checkbox" id="rightPadIsActiveChkBx" v-model="rightPadIsActive">
+            <label for="rightPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad
+            </label>
 
-          <footer>
+            <span
+                class="fr"
+                v-bind:class="[showSettings ? 'bg-light-gray' : '']">
+                <span
+                    class="material-icons input-reset bg-animate dim black-80 pointer"
+                    v-on:click="reset()"
+                    v-show="settingsChanged"
+                    title="Reset Settings">
+                    settings_backup_restore
+                </span>
+                <span
+                    class="material-icons input-reset bg-animate dim black-80 pointer ml0"
+                    v-on:click="toggleSettings()"
+                    title="Settings">
+                    settings
+                </span>
+            </span>
+
+            <!-- settings -->
+            <div class="w-100 measure center bg-light-gray pa2" v-show="showSettings">
+                <div class="mt3">
+                    <label for="delimiterTxt" class="pa0 ma0 lh-copy f6 pointer pr2">Delimiter (default is new
+                        line)</label>
+                    <input type="text" id="delimiterTxt" class="fr ba b--black-80 br0" size="4" v-model="delimiter">
+                </div>
+
+                <div class="mt3">
+                    <label for="leftPadCharacterTxt" class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad Character</label>
+                    <input type="text" id="leftPadCharacterTxt" class="fr ba b--black-80 br0" size="4"
+                        v-model="leftPadCharacter">
+                </div>
+
+                <div class="mv3">
+                    <label for="rightPadCharacterTxt" class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad Character</label>
+                    <input type="text" id="rightPadCharacterTxt" class="fr ba b--black-80 br0" size="4"
+                        v-model="rightPadCharacter">
+                </div>
+            </div>
+        </div>
+
+        <footer>
             <small class="f6">
-                <div class="black-50">Icons made by <a href="https://www.flaticon.com/free-icon/chopping_3057014" title="iconixar">iconixar</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                <div class="black-50">Icons made by <a href="https://www.flaticon.com/free-icon/chopping_3057014"
+                        title="iconixar">iconixar</a> from <a href="https://www.flaticon.com/"
+                        title="Flaticon">www.flaticon.com</a></div>
             </small>
-          </footer>
+        </footer>
     </div>
 
     <script>
@@ -103,25 +120,38 @@
                 input: '',
                 leftPadIsActive: false,
                 rightPadIsActive: false,
-                maxLength: 200
+                showSettings: true,
+                maxLength: 200,
+                delimiter: '\n',
+                leftPadCharacter: '*',
+                rightPadCharacter: '*'
             },
             computed: {
                 output: function () {
                     let formated = ''
-                    
+
                     if (this.input != '') {
                         formated = this.input
                             .trim()
-                            .split('\n')
+                            .split(this.delimiter)
                             .map(e => e.trim())
-                            .map(e => (this.leftPadIsActive ? '*' : '') + e) // add left padding
-                            .map(e => e + (this.rightPadIsActive ? '*' : '')) // add right padding
+                            .map(e => (this.leftPadIsActive ? this.leftPadCharacter : '') +
+                            e) // add left padding
+                            .map(e => e + (this.rightPadIsActive ? this.rightPadCharacter :
+                            '')) // add right padding
                             .sort()
                             .join(',')
                             .trim()
                     }
 
                     return formated
+                },
+                settingsChanged: function () {
+                    let isChanged = false
+                    if(this.delimiter != '\n' || this.leftPadCharacter != '*' || this.rightPadCharacter != '*') {
+                        isChanged = true
+                    }
+                    return isChanged
                 }
             },
             methods: {
@@ -133,7 +163,13 @@
                     this.input = ''
                     this.leftPadIsActive = false
                     this.rightPadIsActive = false
+                    this.delimiter = '\n'
+                    this.leftPadCharacter = '*'
+                    this.rightPadCharacter = '*'
                     return null
+                },
+                toggleSettings: function () {
+                    this.showSettings = !this.showSettings
                 }
             }
         })
