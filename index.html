@@ -107,15 +107,21 @@
             },
             computed: {
                 output: function () {
-                    return this.input
-                        .trim()
-                        .split('\n')
-                        .map(e => e.trim())
-                        .map(e => (this.leftPadIsActive ? '*' : '') + e) // add left padding
-                        .map(e => e + (this.rightPadIsActive ? '*' : '')) // add right padding
-                        .sort()
-                        .join(',')
-                        .trim()
+                    let formated = ''
+                    
+                    if (this.input != '') {
+                        formated = this.input
+                            .trim()
+                            .split('\n')
+                            .map(e => e.trim())
+                            .map(e => (this.leftPadIsActive ? '*' : '') + e) // add left padding
+                            .map(e => e + (this.rightPadIsActive ? '*' : '')) // add right padding
+                            .sort()
+                            .join(',')
+                            .trim()
+                    }
+
+                    return formated
                 }
             },
             methods: {
