@@ -46,7 +46,8 @@
         <div class="measure black-80 pb1">
             <label for="input" class="f6 b db mb2">
                 Formated items
-                <span class="normal black-60">(click to copy to clipboard)</span>
+                <span class="normal black-60" v-if="!showCopyStatus">(click to copy to clipboard)</span>
+                <span class="normal b green" v-if="showCopyStatus">Copied!</span>
                 <span class="fr normal black-60" title="Character count">
                     <span
                         v-bind:class="[output.length > maxLength ? 'b red' : '']">{{ output.length }}</span>/{{ maxLength }}
@@ -119,13 +120,15 @@
                 maxLength: 200,
                 delimiter: '\n',
                 leftPadCharacter: '*',
-                rightPadCharacter: '*'
+                rightPadCharacter: '*',
+                showCopyStatus: false
             },
             created() {
                 this.canCopy = !!navigator.clipboard;
             },
             computed: {
                 output: function () {
+                    this.showCopyStatus = false
                     let formated = ''
 
                     if (this.input != '') {
@@ -169,9 +172,11 @@
                 },
                 toggleSettings: function () {
                     this.showSettings = !this.showSettings
+                    return null
                 },
                 async copy(s) {
-                    await navigator.clipboard.writeText(s);
+                    await navigator.clipboard.writeText(s)
+                    this.showCopyStatus = true
                 }
             }
         })
