@@ -17,94 +17,108 @@
         footer {
             position: absolute;
             bottom: 0;
-            height: 2rem;
+            height: 4rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+            padding-bottom: 0;
         }
     </style>
 </head>
 
-<body>
-    <div id="app" class="pa3 pl5 avenir mw9 center vh-100 flex flex-column bg-near-white">
-        <h1 class="f1 u pb2"><a href="#"
-                class="no-underline bg-animate bg-black-90 hover-bg-red white measure-narrow ph1">{{ title }}</a></h1>
+<body class="bg-near-white">
+    <div id="app" class="pa3 ph4 ph5-ns avenir mw9 center vh-100 flex flex-column">
+        <div>
+            <h1 class="f1 u pb2"><a href="#"
+                    class="no-underline bg-animate bg-black-90 hover-bg-red white measure-narrow ph1">{{ title }}</a>
+            </h1>
 
-        <!-- input -->
-        <div class="measure black-80 pb1 mb2">
-            <label for="input" class="f6 b db mb2">
-                Unformated items
-                <span class="normal black-60">(items separated by new line)</span>
-                <span class="material-icons fr bg-animate dim black-80 pointer" v-on:click="clear()"
-                    v-show="input.length>0" title="Delete">
-                    delete_outline
-                </span>
-            </label>
-            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100 bg-white-20" rows="5" cols="30"
-                v-model="input" autofocus>
+            <!-- input -->
+            <div class="measure black-80 pb1 mb2">
+                <label for="input" class="f6 b db mb2">
+                    Unformated items
+                    <span class="normal black-60">(items separated by new line)</span>
+                    <span class="material-icons fr bg-animate dim black-80 pointer" v-on:click="clear()"
+                        v-show="input.length>0" title="Delete">
+                        delete_outline
+                    </span>
+                </label>
+                <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100 bg-white-20" rows="5" cols="30"
+                    v-model="input" autofocus>
             </textarea>
-        </div>
+            </div>
 
-        <!-- output -->
-        <div class="measure black-80 pb1">
-            <label for="input" class="f6 b db mb2">
-                Formated items
-                <span class="normal black-60" v-if="!showCopyStatus">(click to copy to clipboard)</span>
-                <span class="normal b green" v-if="showCopyStatus">Copied!</span>
-                <span class="fr normal black-60" title="Character count">
-                    <span
-                        v-bind:class="[output.length > maxLength ? 'b red' : '']">{{ output.length }}</span>/{{ maxLength }}
-                </span>
-            </label>
-            <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100 bg-white-20" rows="5" cols="30"
-                readonly @click="copy(output)">{{ output }}
+            <!-- output -->
+            <div class="measure black-80 pb1">
+                <label for="input" class="f6 b db mb2">
+                    Formated items
+                    <span class="normal black-60" v-if="!showCopyStatus">(click to copy to clipboard)</span>
+                    <span class="normal b green" v-if="showCopyStatus">Copied!</span>
+                    <span class="fr normal black-60" title="Character count">
+                        <span
+                            v-bind:class="[output.length > maxLength ? 'b red' : '']">{{ output.length }}</span>/{{ maxLength }}
+                    </span>
+                </label>
+                <textarea id="input" class="input-reset ba b--black-20 pa2 mb2 db w-100 bg-white-20" rows="5" cols="30"
+                    readonly @click="copy(output)">{{ output }}
             </textarea>
 
-            <!-- options -->
-            <input type="checkbox" id="leftPadIsActiveChkBx" v-model="leftPadIsActive">
-            <label for="leftPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad
-            </label>
+                <!-- options -->
+                <input type="checkbox" id="leftPadIsActiveChkBx" v-model="leftPadIsActive">
+                <label for="leftPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad
+                </label>
 
-            <input type="checkbox" id="rightPadIsActiveChkBx" v-model="rightPadIsActive">
-            <label for="rightPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad
-            </label>
+                <input type="checkbox" id="rightPadIsActiveChkBx" v-model="rightPadIsActive">
+                <label for="rightPadIsActiveChkBx" class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad
+                </label>
 
-            <span class="fr" v-bind:class="[showSettings ? 'bg-light-gray' : '']">
-                <span class="material-icons input-reset bg-animate dim black-80 pointer" v-on:click="reset()"
-                    v-show="settingsChanged" title="Reset Settings">
-                    settings_backup_restore
+                <span class="fr" v-bind:class="[showSettings ? 'bg-light-gray' : '']">
+                    <span class="material-icons input-reset bg-animate dim black-80 pointer" v-on:click="reset()"
+                        v-show="settingsChanged" title="Reset Settings">
+                        settings_backup_restore
+                    </span>
+                    <span class="material-icons input-reset bg-animate dim black-80 pointer ml0"
+                        v-on:click="toggleSettings()" title="Settings">
+                        settings
+                    </span>
                 </span>
-                <span class="material-icons input-reset bg-animate dim black-80 pointer ml0"
-                    v-on:click="toggleSettings()" title="Settings">
-                    settings
-                </span>
-            </span>
 
-            <!-- settings -->
-            <div class="w-100 measure center bg-light-gray pa2" v-show="showSettings">
-                <div class="mt3">
-                    <label for="delimiterTxt" class="pa0 ma0 lh-copy f6 pointer pr2">Delimiter (default is new
-                        line)</label>
-                    <input type="text" id="delimiterTxt" class="fr ba b--black-80 br0" size="4" v-model="delimiter">
-                </div>
+                <!-- settings -->
+                <div class="w-100 measure center bg-light-gray pa2" v-show="showSettings">
+                    <div class="mt3">
+                        <label for="delimiterTxt" class="pa0 ma0 lh-copy f6 pointer pr2">Delimiter (default is new
+                            line)</label>
+                        <input type="text" id="delimiterTxt" class="fr ba b--black-80 br0" size="4" v-model="delimiter">
+                    </div>
 
-                <div class="mt3">
-                    <label for="leftPadCharacterTxt" class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad Character</label>
-                    <input type="text" id="leftPadCharacterTxt" class="fr ba b--black-80 br0" size="4"
-                        v-model="leftPadCharacter">
-                </div>
+                    <div class="mt3">
+                        <label for="leftPadCharacterTxt" class="pa0 ma0 lh-copy f6 pointer pr2">Left Pad
+                            Character</label>
+                        <input type="text" id="leftPadCharacterTxt" class="fr ba b--black-80 br0" size="4"
+                            v-model="leftPadCharacter">
+                    </div>
 
-                <div class="mv3">
-                    <label for="rightPadCharacterTxt" class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad Character</label>
-                    <input type="text" id="rightPadCharacterTxt" class="fr ba b--black-80 br0" size="4"
-                        v-model="rightPadCharacter">
+                    <div class="mv3">
+                        <label for="rightPadCharacterTxt" class="pa0 ma0 lh-copy f6 pointer pr2">Right Pad
+                            Character</label>
+                        <input type="text" id="rightPadCharacterTxt" class="fr ba b--black-80 br0" size="4"
+                            v-model="rightPadCharacter">
+                    </div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <small class="f6">
-                <div class="black-50">This site does not collect any data. All data is processed in the client browser.</div>
-                <div class="black-50">Icon made by <a href="https://www.flaticon.com/free-icon/chopping_3057014"
-                        title="iconixar">iconixar</a> from <a href="https://www.flaticon.com/"
-                        title="Flaticon">www.flaticon.com</a></div>
+            <small class="f6 w-100">
+                <div class="black-50">
+                    <p>This site does not collect any data. All data is processed in the client browser.</p>
+                </div>
+                <div class="black-50">
+                    <p>Icon made by <a href="https://www.flaticon.com/free-icon/chopping_3057014"
+                            title="iconixar">iconixar</a> from <a href="https://www.flaticon.com/"
+                            title="Flaticon">www.flaticon.com</a></p>
+                </div>
             </small>
         </footer>
     </div>
